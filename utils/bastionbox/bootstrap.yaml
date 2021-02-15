@@ -1,0 +1,14 @@
+#cloud-config
+hostname: bastionbox
+package_update: true
+package_upgrade: true
+packages:
+ - xrdp
+ - xfce4
+ - xfce4-terminal
+ - firefox
+runcmd:
+  - [ sed, -i.bak, "'/fi/a #xrdp multiple users configuration \n xfce-session \n'", "/etc/xrdp/startwm.sh" ]
+  - adduser xrdp ssl-cert
+  - ufw allow 3389/tcp
+  - /etc/init.d/xrdp restart

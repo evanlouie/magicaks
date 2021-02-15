@@ -1,5 +1,14 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.46.0"
+    }
+  }
+}
+
 provider "azurerm" {
-    version = "~>1.8"
+  features {}
 }
 
 terraform {
@@ -35,7 +44,6 @@ resource "azurerm_network_interface" "bastionnic" {
   }
 }
 
-
 resource "azurerm_virtual_machine" "bastionbox" {
   name                = "bastionbox"
   resource_group_name = azurerm_resource_group.magicakssupport.name
@@ -48,6 +56,7 @@ resource "azurerm_virtual_machine" "bastionbox" {
   os_profile {
     computer_name = "bastionbox"
     admin_username = "bastionbox"
+    custom_data = file("bootstrap.yaml")
   }
 
   os_profile_linux_config {
