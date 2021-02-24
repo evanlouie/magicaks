@@ -4,4 +4,4 @@ out.plan
 *.tfvars
 .env
 ubuntu.yaml
-
+cli/__pycache__/
