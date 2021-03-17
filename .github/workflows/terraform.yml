@@ -72,3 +72,22 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+
+    - name: Sleep for 60 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '60s'
+
+    - name: Start the next stage
+      run: cd 3-postprovision
+
+    - name: Terraform Init Postprovision
+      run: terraform init
+      env:
+        TF_CLI_ARGS_init: "-backend-config=../backend.tfvars"
+
+    - name: Terraform Plan Postprovision
+      run: terraform plan
+
+    - name: Terraform Apply Postprovision
+      run: terraform apply -auto-approve
