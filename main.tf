@@ -73,7 +73,6 @@ module "provision-cluster" {
   user_assigned_identity_resource_id = data.azurerm_user_assigned_identity.magicaksmsi.id
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
-  ssh_public_key      = var.ssh_public_key
 
   depends_on = [ module.preprovision ]
 }
