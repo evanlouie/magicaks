@@ -40,7 +40,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - name: Create backend.tfvars
-      run: echo -e 'resource_group_name  = "longlasting"\container_name = "tfstategithub"\storage_account_name = "longlasting"\n' > ./backend.tfvars
+      run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
   
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
