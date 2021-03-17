@@ -81,10 +81,11 @@ jobs:
     - name: Start the next stage
       run: cd 3-postprovision
 
+    - name: Create backend.tfvars
+      run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
+
     - name: Terraform Init Postprovision
       run: terraform init
-      env:
-        TF_CLI_ARGS_init: "-backend-config=../backend.tfvars"
 
     - name: Terraform Plan Postprovision
       run: terraform plan
