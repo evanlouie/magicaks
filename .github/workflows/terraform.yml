@@ -26,6 +26,7 @@ jobs:
       TF_VAR_monitoring_reader_sp_client_id: "7fb27fd3-29e7-421d-83c0-efd7870749fd"
       TF_VAR_resource_group_name: "magicaks-longlasting"
       TF_VAR_resource_suffix: "sakusagh"
+      TF_VAR_ssh_public_key: "./gh.pub"
       TF_VAR_cluster_support_db_admin_password: ${{ secrets.CLUSTER_SUPPORT_DB_ADMIN_PASSWORD }}
       TF_VAR_github_pat: ${{ secrets.GH_PAT }}
       TF_VAR_grafana_admin_password: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
@@ -58,7 +59,7 @@ jobs:
       run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
     
     - name: Create ssh-key for this run
-      run: cat /dev/zero | ssh-keygen -q -N ""
+      run: cat /dev/zero | ssh-keygen -q -N "" -f ./gh
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init

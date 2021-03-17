@@ -20,3 +20,7 @@ variable "github_user" {}
 variable "k8s_manifest_repo" {}
 variable "k8s_workload_repo" {}
 variable "app_name" {}
+
+variable "ssh_public_key" {
+    default = "~/.ssh/id_rsa.pub"
+}
