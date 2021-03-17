@@ -63,6 +63,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_KEY }}
         name: id_rsa # optional
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
