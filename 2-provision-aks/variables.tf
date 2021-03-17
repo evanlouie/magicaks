@@ -24,3 +24,4 @@ variable "user_assigned_identity_resource_id" {}
 
 variable "log_analytics_workspace_name" { default = "k8sLogAnalyticsWorkspace" }
 variable "log_analytics_workspace_sku" { default = "PerGB2018" }
+variable "ssh_public_key" {}
