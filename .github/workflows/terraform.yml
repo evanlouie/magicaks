@@ -19,12 +19,13 @@ jobs:
       TF_VAR_admin_group_object_ids: "8644aa54-9934-4415-a4fb-93d5eda41025"
       TF_VAR_app_name: app1
       TF_VAR_cluster_name: "sakundumagicaksgh"
+      TF_VAR_cluster_msi_name: "magicaksmsigh"
       TF_VAR_github_user: "sachinkundu"
       TF_VAR_k8s_manifest_repo: "k8smanifests"
       TF_VAR_k8s_workload_repo: "k8sworkloads"
       TF_VAR_location: "westeurope"
       TF_VAR_monitoring_reader_sp_client_id: "7fb27fd3-29e7-421d-83c0-efd7870749fd"
-      TF_VAR_resource_group_name: "magicaks-longlasting"
+      TF_VAR_resource_group_name: "magicakssakundugh"
       TF_VAR_resource_suffix: "sakusagh"
       TF_VAR_ssh_public_key: "./gh.pub"
       TF_VAR_cluster_support_db_admin_password: ${{ secrets.CLUSTER_SUPPORT_DB_ADMIN_PASSWORD }}

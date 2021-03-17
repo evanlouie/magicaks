@@ -2,6 +2,7 @@ variable "resource_group_name" {}
 variable "location" {}
 variable "resource_suffix" {}
 variable "cluster_name" {}
+variable "cluster_msi_name" {}
 
 variable "aad_tenant_id" { }
 variable "admin_group_object_ids" { }

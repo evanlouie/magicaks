@@ -4,19 +4,28 @@
 # even if the cluster is destroyed or re-created
 
 SHARED_RESOURCE_GROUP=$1
+MSI_NAME=$2
 
 if [ -z "$SHARED_RESOURCE_GROUP" ]
 then
     echo "MagicAKS managed identity script"
     echo
-    echo "Usage: $0 <shared resource group name>"
+    echo "Usage: $0 <shared resource group name> <msi name>"
     exit 1
 fi
 
-az identity create --name magicaksmsi --resource-group $SHARED_RESOURCE_GROUP
+if [ -z "$MSI_NAME" ]
+then
+    echo "MagicAKS managed identity script"
+    echo
+    echo "Usage: $0 <shared resource group name> <msi name>"
+    exit 1
+fi
+
+az identity create --name $MSI_NAME --resource-group $SHARED_RESOURCE_GROUP
 sleep 60
-eval MSI_CLIENT_ID=$(az identity show -n magicaksmsi -g $SHARED_RESOURCE_GROUP -o json | jq -r ".clientId")
-eval MSI_RESOURCE_ID=$(az identity show -n magicaksmsi -g $SHARED_RESOURCE_GROUP -o json | jq -r ".id")
+eval MSI_CLIENT_ID=$(az identity show -n $MSI_NAME -g $SHARED_RESOURCE_GROUP -o json | jq -r ".clientId")
+eval MSI_RESOURCE_ID=$(az identity show -n $MSI_NAME -g $SHARED_RESOURCE_GROUP -o json | jq -r ".id")
 az role assignment create --role "Network Contributor" --assignee $MSI_CLIENT_ID -g $SHARED_RESOURCE_GROUP
 az role assignment create --role "Virtual Machine Contributor" --assignee $MSI_CLIENT_ID -g $SHARED_RESOURCE_GROUP
 echo "Managed Identity Client ID: $MSI_CLIENT_ID"

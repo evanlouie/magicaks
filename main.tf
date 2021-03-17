@@ -41,7 +41,7 @@ resource "null_resource" "buildgrafana" {
 }
 
 data "azurerm_user_assigned_identity" "magicaksmsi" {
-  name                = "magicaksmsi"
+  name                = var.cluster_msi_name
   resource_group_name = var.resource_group_name
 }
 
