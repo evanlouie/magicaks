@@ -28,6 +28,7 @@ jobs:
       TF_VAR_resource_group_name: "magicakssakundugh"
       TF_VAR_resource_suffix: "sakusagh"
       TF_VAR_ssh_public_key: "./gh.pub"
+      TF_VAR_key_vault_id: "/subscriptions/b6a69b21-5dea-4475-9cd5-e9f2f8eb1e27/resourceGroups/magicakssakundugh/providers/Microsoft.KeyVault/vaults/kv-sakusagh"
       TF_VAR_cluster_support_db_admin_password: ${{ secrets.CLUSTER_SUPPORT_DB_ADMIN_PASSWORD }}
       TF_VAR_github_pat: ${{ secrets.GH_PAT }}
       TF_VAR_grafana_admin_password: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
