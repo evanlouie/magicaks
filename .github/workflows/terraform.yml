@@ -32,7 +32,7 @@ jobs:
       uses: azure/setup-kubectl@v1
     
     - name: Install fluxctl
-        uses: fluxcd/fluxctl-action@master
+      uses: fluxcd/fluxctl-action@master
     
     - name: Azure Login
       uses: azure/login@v1
