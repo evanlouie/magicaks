@@ -39,10 +39,6 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-
     - name: Create backend.tfvars
       run: echo -e 'resource_group_name  = "longlasting"\container_name = "tfstategithub"\storage_account_name = "longlasting"\n' > ./backend.tfvars
   
