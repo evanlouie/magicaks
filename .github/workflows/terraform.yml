@@ -59,7 +59,7 @@ jobs:
       run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
   
     - name: Create ssh key
-      run: ssh-keygen -q -N ""
+      run: ssh-keygen -q -N "" -f ~/.ssh/id_rsa
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
