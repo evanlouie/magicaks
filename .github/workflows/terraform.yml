@@ -15,8 +15,23 @@ jobs:
       ARM_TENANT_ID: "72f988bf-86f1-41af-91ab-2d7cd011db47"
       ARM_CLIENT_ID: "502075fb-4b18-4a3b-8cc2-af49996bc8d2"
       TF_CLI_ARGS_init: "-backend-config=./backend.tfvars"
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      TF_VAR_aad_tenant_id: "feb90174-c954-4106-92bc-1bf0ef3478b1"
+      TF_VAR_admin_group_object_ids: "8644aa54-9934-4415-a4fb-93d5eda41025"
+      TF_VAR_app_name: app1
+      TF_VAR_cluster_name: "sakundumagicaksgh"
+      TF_VAR_github_user: "sachinkundu"
+      TF_VAR_k8s_manifest_repo: "k8smanifests"
+      TF_VAR_k8s_workload_repo: "k8sworkloads"
+      TF_VAR_location: "westeurope"
+      TF_VAR_monitoring_reader_sp_client_id: "7fb27fd3-29e7-421d-83c0-efd7870749fd"
+      TF_VAR_resource_group_name: "magicaks-longlasting"
+      TF_VAR_resource_suffix: "sakusagh"
+      TF_VAR_cluster_support_db_admin_password: ${{ secrets.CLUSTER_SUPPORT_DB_ADMIN_PASSWORD }}
+      TF_VAR_github_pat: ${{ secrets.GH_PAT }}
+      TF_VAR_grafana_admin_password: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+      TF_VAR_monitoring_reader_sp_client_secret: ${{ secrets.MONITORING_READER_SP_CLIENT_SECRET }}
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
