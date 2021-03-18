@@ -6,7 +6,7 @@ on:
     - githubactions
 
 jobs:
-  terraform:
+  preandcluster:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
@@ -49,9 +49,6 @@ jobs:
     - name: Install kubectl
       uses: azure/setup-kubectl@v1
     
-    - name: Install fluxctl
-      uses: fluxcd/fluxctl-action@master
-    
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -78,6 +75,58 @@ jobs:
       uses: jakejarvis/wait-action@master
       with:
         time: '60s'
+
+  postprov:
+    needs: preandcluster
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_SUBSCRIPTION_ID: "b6a69b21-5dea-4475-9cd5-e9f2f8eb1e27"
+      ARM_TENANT_ID: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+      ARM_CLIENT_ID: "502075fb-4b18-4a3b-8cc2-af49996bc8d2"
+      TF_CLI_ARGS_init: "-backend-config=./backend.tfvars"
+      TF_VAR_aad_tenant_id: "feb90174-c954-4106-92bc-1bf0ef3478b1"
+      TF_VAR_app_name: app1
+      TF_VAR_cluster_name: "sakundumagicaksgh"
+      TF_VAR_github_user: "sachinkundu"
+      TF_VAR_k8s_manifest_repo: "k8smanifests"
+      TF_VAR_k8s_workload_repo: "k8sworkloads"
+      TF_VAR_location: "westeurope"
+      TF_VAR_resource_group_name: "magicakssakundugh"
+      TF_VAR_resource_suffix: "sakusagh"
+      TF_VAR_key_vault_id: "/subscriptions/b6a69b21-5dea-4475-9cd5-e9f2f8eb1e27/resourceGroups/magicakssakundugh/providers/Microsoft.KeyVault/vaults/kv-sakusagh"
+      TF_VAR_github_pat: ${{ secrets.GH_PAT }}
+      ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v1
+    
+    - name: Install fluxctl
+      uses: fluxcd/fluxctl-action@master
+    
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Get Kubernetes context
+      uses: azure/aks-set-context@v1
+      with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}' 
+          resource-group: "rg-sakundumagicaksgh"
+          cluster-name: "sakundumagicaksgh"
+      id: login        
 
     - name: Create backend.tfvars
       run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
