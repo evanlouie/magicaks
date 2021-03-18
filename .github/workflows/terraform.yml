@@ -120,14 +120,6 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: Get Kubernetes context
-      uses: azure/aks-set-context@v1
-      with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}' 
-          resource-group: "rg-sakundumagicaksgh"
-          cluster-name: "aks-sakundumagicaksgh"
-      id: login        
-
     - name: Create backend.tfvars
       run: echo -e 'resource_group_name  = "longlasting"\ncontainer_name = "tfstategithub"\nstorage_account_name = "longlasting"\n' > ./backend.tfvars
       working-directory: ./3-postprovision

@@ -11,9 +11,14 @@ terraform {
   }
 }
 
+
 provider "kubernetes" {
-  config_path    = "~/.kube/config"
   config_context = "aks-${var.cluster_name}-admin"
+  exec {
+    api_version = "client.authentication.k8s.io/v1alpha1"
+    args        = ["aks", "get-credentials", "-g", var.cluster_name, "--admin", "--overwrite"]
+    command     = "az"
+  }
 }
 
 provider "github" {
