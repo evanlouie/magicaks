@@ -7,7 +7,7 @@ on:
 
 jobs:
   preandcluster:
-    name: 'Terraform'
+    name: 'Preprovison and Cluster'
     runs-on: ubuntu-latest
     environment: production
     env:
@@ -78,7 +78,7 @@ jobs:
 
   postprov:
     needs: preandcluster
-    name: 'Terraform'
+    name: 'Post Provision'
     runs-on: ubuntu-latest
     environment: production
     env:
@@ -125,7 +125,7 @@ jobs:
       with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}' 
           resource-group: "rg-sakundumagicaksgh"
-          cluster-name: "sakundumagicaksgh"
+          cluster-name: "aks-sakundumagicaksgh"
       id: login        
 
     - name: Create backend.tfvars
