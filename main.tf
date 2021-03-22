@@ -4,6 +4,18 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=2.51.0"
     }
+    github = {
+      source = "hashicorp/github"
+      version = "=4.5.0"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = ">= 2.0.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.0.1"
+    }
   }
 }
 
@@ -15,6 +27,22 @@ provider "azurerm" {
 terraform {
   backend "azurerm" {
     key = "magicaksconsolidated"
+  }
+}
+
+provider "kubernetes" {
+  host                   = module.provision-cluster.host
+  client_key             = base64decode(module.provision-cluster.client_key)
+  client_certificate     = base64decode(module.provision-cluster.client_certificate)
+  cluster_ca_certificate = base64decode(module.provision-cluster.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = module.provision-cluster.host
+    client_key             = base64decode(module.provision-cluster.client_key)
+    client_certificate     = base64decode(module.provision-cluster.client_certificate)
+    cluster_ca_certificate = base64decode(module.provision-cluster.cluster_ca_certificate)
   }
 }
 
@@ -55,6 +83,7 @@ resource "time_sleep" "preprovision" {
 }
 
 module "provision-cluster" {
+  providers    = { azurerm = azurerm }
   source              = "./2-provision-aks"
   cluster_name        = var.cluster_name
   subscription_id     = data.azurerm_subscription.current.id
@@ -76,3 +105,24 @@ module "provision-cluster" {
 
   depends_on = [ module.preprovision ]
 }
+
+resource "time_sleep" "wait_60_seconds" {
+  depends_on = [module.provision-cluster]
+
+  create_duration = "60s"
+}
+
+# module "postprovision" {
+#   providers    = { kubernetes = kubernetes, helm = helm }
+#   source = "./3-postprovision"
+#   cluster_name = var.cluster_name
+#   location = var.location
+#   github_pat = var.github_pat
+#   github_user = var.github_user
+#   k8s_manifest_repo = var.k8s_manifest_repo
+#   k8s_workload_repo = var.k8s_workload_repo
+#   key_vault_id = module.preprovision.key_vault_id
+#   app_name = var.app_name
+
+#   depends_on = [time_sleep.wait_60_seconds, module.provision-cluster]
+# }

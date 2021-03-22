@@ -1,9 +1,4 @@
 
-data "azurerm_key_vault_secret" "registry_username" {
-  name          = "adminuser"
-  key_vault_id  = var.key_vault_id
-}
-
 data "azurerm_key_vault_secret" "registry_password" {
   name          = "adminpassword"
   key_vault_id  = var.key_vault_id
@@ -18,7 +13,7 @@ resource "azurerm_container_group" "grafana_container_group" {
   network_profile_id  = var.aci_network_profile_id
 
   image_registry_credential {
-    username  = data.azurerm_key_vault_secret.registry_username.value
+    username  = var.acr_name
     password  = data.azurerm_key_vault_secret.registry_password.value
     server    = "${var.acr_name}.azurecr.io"
   }

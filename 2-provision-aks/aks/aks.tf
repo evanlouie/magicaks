@@ -70,4 +70,12 @@ resource "azurerm_kubernetes_cluster" "k8s_cluster" {
     provisioner "local-exec" {
         command = "${path.cwd}/2-provision-aks/azurepolicy.sh ${self.name} ${self.resource_group_name}"
     }
+
+    provisioner "local-exec" {
+        command = "echo ${azurerm_kubernetes_cluster.k8s_cluster.kube_config.0.client_certificate}"
+    }
+
+    provisioner "local-exec" {
+        command = "echo ${azurerm_kubernetes_cluster.k8s_cluster.kube_config.0.client_key}"
+    }
 }

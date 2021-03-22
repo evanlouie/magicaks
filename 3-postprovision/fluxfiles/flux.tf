@@ -1,9 +1,3 @@
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
 resource "kubernetes_namespace" "flux-admin" {
   metadata {
     labels  = {created-by = "terraform"}
@@ -16,7 +10,7 @@ resource "helm_release" "flux-admin" {
   chart       = "flux"
   repository  = "https://charts.fluxcd.io/"
   namespace   = kubernetes_namespace.flux-admin.metadata[0].name
-   values     = [file("${path.cwd}/fluxfiles/values.yaml")]
+   values     = [file("${path.cwd}/3-postprovision/fluxfiles/values.yaml")]
 
   set {
     name  = "git.url"
@@ -64,8 +58,8 @@ resource "helm_release" "flux-workloads" {
   repository  = "https://charts.fluxcd.io/"
   namespace   = kubernetes_namespace.flux-workloads.metadata[0].name
   values      = [
-    file("${path.cwd}/fluxfiles/values.yaml"),
-    file("${path.cwd}/fluxfiles/values-workloads.yaml")
+    file("${path.cwd}/3-postprovision/fluxfiles/values.yaml"),
+    file("${path.cwd}/3-postprovision/fluxfiles/values-workloads.yaml")
   ]
 
   set {

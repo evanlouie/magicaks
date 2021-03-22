@@ -31,12 +31,6 @@ module "kv" {
   tenant_id           = var.tenant_id
 }
 
-resource "azurerm_key_vault_secret" "registry_username" {
-  name         = "adminuser"
-  value        = module.acr.admin_username
-  key_vault_id = module.kv.key_vault_id
-}
-
 resource "azurerm_key_vault_secret" "registry_password" {
   name         = "adminpassword"
   value        = module.acr.admin_password

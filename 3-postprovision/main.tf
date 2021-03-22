@@ -1,42 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=2.46.0"
-    }
-    github = {
-      source = "hashicorp/github"
-      version = "=4.5.0"
-    }
-  }
-}
-
-
-provider "kubernetes" {
-  config_context = "aks-${var.cluster_name}-admin"
-  exec {
-    api_version = "client.authentication.k8s.io/v1alpha1"
-    args        = ["aks", "get-credentials", "-g", var.cluster_name, "--admin", "--overwrite"]
-    command     = "az"
-  }
-}
-
-provider "github" {
-  token         = var.github_pat
-  organization  = var.github_user
-}
-
-# Configure the Microsoft Azure Provider
-provider "azurerm" {
-  features {}
-}
-
-terraform {
-  backend "azurerm" {
-    key = "magicaks-postprovision"
-  }
-}
-
 resource "kubernetes_namespace" "admin" {
   metadata {
     labels  = {created-by = "terraform"}
@@ -45,6 +6,7 @@ resource "kubernetes_namespace" "admin" {
 }
 
 module flux {
+  providers           = { kubernetes = kubernetes, helm = helm }
   source              = "./fluxfiles"
   github_user         = var.github_user
   admin_repo          = var.k8s_manifest_repo
