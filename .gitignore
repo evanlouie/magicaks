@@ -3,5 +3,5 @@ out.plan
 .terraform
 *.tfvars
 .env
+*.env
 ubuntu.yaml
-

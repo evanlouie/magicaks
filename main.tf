@@ -5,11 +5,11 @@ terraform {
       version = "=2.51.0"
     }
     github = {
-      source = "hashicorp/github"
+      source  = "hashicorp/github"
       version = "=4.5.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = ">= 2.0.0"
     }
     helm = {
@@ -47,8 +47,8 @@ provider "helm" {
 }
 
 provider "github" {
-  token         = var.github_pat
-  organization  = var.github_user
+  token        = var.github_pat
+  organization = var.github_user
 }
 
 data "azurerm_subscription" "current" {
@@ -78,32 +78,32 @@ resource "time_sleep" "preprovision" {
   create_duration = "60s"
 
   triggers = {
-    acr_name  = module.preprovision.acr_name
+    acr_name = module.preprovision.acr_name
   }
 }
 
 module "provision-cluster" {
-  providers    = { azurerm = azurerm }
-  source              = "./2-provision-aks"
-  cluster_name        = var.cluster_name
-  subscription_id     = data.azurerm_subscription.current.id
-  aad_tenant_id       = var.aad_tenant_id
-  admin_group_object_ids = var.admin_group_object_ids
-  k8s_subnet_id          = module.preprovision.k8s_subnet_id
-  aci_subnet_id          = module.preprovision.aci_subnet_id
-  aci_network_profile_id = module.preprovision.aci_network_profile_id
-  acr_name               = time_sleep.preprovision.triggers["acr_name"]
-  key_vault_id           = module.preprovision.key_vault_id
-  grafana_admin_password = var.grafana_admin_password
-  cluster_support_db_admin_password = var.cluster_support_db_admin_password
-  grafana_image_name                = var.grafana_image_name
-  monitoring_reader_sp_client_id    = var.monitoring_reader_sp_client_id
+  providers                          = { azurerm = azurerm }
+  source                             = "./2-provision-aks"
+  cluster_name                       = var.cluster_name
+  subscription_id                    = data.azurerm_subscription.current.id
+  aad_tenant_id                      = var.aad_tenant_id
+  admin_group_object_ids             = var.admin_group_object_ids
+  k8s_subnet_id                      = module.preprovision.k8s_subnet_id
+  aci_subnet_id                      = module.preprovision.aci_subnet_id
+  aci_network_profile_id             = module.preprovision.aci_network_profile_id
+  acr_name                           = time_sleep.preprovision.triggers["acr_name"]
+  key_vault_id                       = module.preprovision.key_vault_id
+  grafana_admin_password             = var.grafana_admin_password
+  cluster_support_db_admin_password  = var.cluster_support_db_admin_password
+  grafana_image_name                 = var.grafana_image_name
+  monitoring_reader_sp_client_id     = var.monitoring_reader_sp_client_id
   monitoring_reader_sp_client_secret = var.monitoring_reader_sp_client_secret
   user_assigned_identity_resource_id = data.azurerm_user_assigned_identity.magicaksmsi.id
-  location            = var.location
-  tenant_id           = data.azurerm_subscription.current.tenant_id
+  location                           = var.location
+  tenant_id                          = data.azurerm_subscription.current.tenant_id
 
-  depends_on = [ module.preprovision ]
+  depends_on = [module.preprovision]
 }
 
 resource "time_sleep" "wait_60_seconds" {
