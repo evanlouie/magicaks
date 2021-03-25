@@ -1,7 +1,6 @@
 **/.DS_Store
 out.plan
 .terraform
-*.tfvars
 .env
 *.env
 ubuntu.yaml
